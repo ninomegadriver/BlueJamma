@@ -62,9 +62,9 @@ O [firmware](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as
     
   O objetivo da Blue Jamma é obter o melhor resultado de imagem no monitor arcade. Então, a porta VGA da Blue Jamma **NÃO POSSUI CONVERSOR DE VÍDEO**, o sinal deve ser enviado por **placas que suportam saída analógica na faixa de frequência suportada por monitores arcade**. Porém, ela possui um circuito para amplificação e balanceamento do sinal de vídeo, baseado no THS7314, para obter a melhor imagem possível no monitor arcade.  
   
-  A Blue Jamma é compatível com os modos de vídeo "15KHz" gerados pelo **Groovy Arcade**. Se sua placa de vídeo é capaz de exibir os modos 224p, 240p e 480i do Groovy Arcade, você pode utilizar a solução de vídeo presente na Blue Jamma.
+  A Blue Jamma é compatível com os modos de vídeo "15KHz" gerados pelo [Groovy Arcade](https://github.com/substring/os). Se sua placa de vídeo é capaz de exibir os modos 224p, 240p e 480i do [Groovy Arcade](https://github.com/substring/os), você pode utilizar a solução de vídeo presente na Blue Jamma.
   
-  **Placas NVIDIA com saída VGA (ou DVI-I via adaptador) são capazes de exibir resoluções compatíveis utilizando o driver oficial da GeForce**. Segue abaixo um passo-a-passo de como configurar a resolução na versão Windows do Driver:  
+  **Placas NVIDIA com saída VGA (ou DVI-I via adaptador) são capazes de exibir resoluções compatíveis utilizando o driver oficial da GeForce**. Segue abaixo um passo-a-passo de como configurar a resolução na versão para Windows do **driver oficial da NVIDIA**:  
     
 ### 1 - Clique com o botão esquerdo do mouse em seu desktop e entre no painel de controle da NVIDIA
     
@@ -90,13 +90,16 @@ O [firmware](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as
   
 ![Passo 6](https://github.com/ninomegadriver/BlueJamma/blob/main/images/VGA-HowTo-Step06.jpg?raw=true)  
 
-### 7 - Et voilà! Seu arcade foi contaminado pela Microsoft!
+### 7 - Et voilà! Seu arcade foi contaminado pelo vírus do Bill Gates :D
 
 ![Passo 7](https://github.com/ninomegadriver/BlueJamma/blob/main/images/VGA-HowTo-Step07.jpg?raw=true)  
   
-### EXTRA: Segue abaixo os timings de uma resolução em 480i caso necessitar para jogos com resoluções de 24Khz. Notem o checkbox de interpolado está ativado.
+### EXTRA: Segue abaixo os timings de uma resolução em 480i, para jogos com resoluções de 24Khz. Notem que "Interlaced" está selecionado ao invés de "Progressive"
   
 ![Passo 8](https://github.com/ninomegadriver/BlueJamma/blob/main/images/VGA-HowTo-Step08.jpg?raw=true)  
+  
+### Observação Adicional:  
+Neste repositório também está disponibilizada a ferramenta antiga, porém super prática, "Custom Resolution Utility (CRU)", na versão binária e código fonte.  
   
 ----------------------
 ### ESQUEMA ELETRÔNICO
