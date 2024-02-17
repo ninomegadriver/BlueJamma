@@ -1,12 +1,18 @@
 # Blue Jamma
 ## Uma placa para ligar o PC em um arcade no padrão Jamma
   
+### INTRODUÇÃO  
+------------------------
 A Blue Jamma é um projeto open-hardware baseada no microcontrolador STM32F103C8T6, o mesmo utilizado nas placas de avaliação "Blue Pill", de onde herdou seu nome e coloração.  
   
 Utiliza todos os GPIOs disponíveis na MCU para suportar todos botões Jamma. Para boa exibição em monitores Arcade, possui um amplificador de vídeo THS7314, com regulagem de ganho individual nas cores e um atenuador para o sincronismo. Para áudio, utiliza o módulo amplificador digital PAM8610.  
   
 ![Blue Jamma Fulli Assembled](https://github.com/ninomegadriver/BlueJamma/blob/main/images/BlueJammaAssembled.jpg?raw=true)  
----------
+  
+------------------------
+### CONEXÃO USB COM O PC
+------------------------
+  
 A ligação dos controles no PC é feita através de uma porta USB que, preferencialmente, é configurada como um [teclado](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as_Keyboard), com os botões mapeados no padrão do emulador M.A.M.E.  
   
 Segue abaixo relação dos Pinos vs GPIO vs Teclas  
@@ -49,8 +55,11 @@ O [firmware](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as
 | Player 2 Direita + Player 2 Start  | Enter               |
   
   **CURIOSIDADE:** Este [firmware](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as_Keyboard) também é compatível com as placas genéricas "Blue Pill". Se você possui uma e gostaria de utilizar este firmware nela, ao invés da Blue Jamma, fique a vontade. Basta utilizar a mesma configuração de GPIOs nos botões ou editar o código fonte como desejado.  
-  
----------
+    
+  ------------------------
+  ### CONEXÃO VGA COM O PC
+  ------------------------
+    
   O objetivo da Blue Jamma é obter o melhor resultado de imagem no monitor arcade. Então, a porta VGA da Blue Jamma **NÃO POSSUI CONVERSOR DE VÍDEO**, o sinal deve ser enviado por **placas que suportam saída analógica na faixa de frequência suportada por monitores arcade**. Porém, ela possui um circuito para amplificação e balanceamento do sinal de vídeo, baseado no THS7314, para obter a melhor imagem possível no monitor arcade.  
   
   A Blue Jamma é compatível com os modos de vídeo "15KHz" gerados pelo **Groovy Arcade**. Se sua placa de vídeo é capaz de exibir os modos 224p, 240p e 480i do Groovy Arcade, você pode utilizar a solução de vídeo presente na Blue Jamma.
@@ -89,4 +98,36 @@ O [firmware](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as
   
 ![Passo 8](https://github.com/ninomegadriver/BlueJamma/blob/main/images/VGA-HowTo-Step08.jpg?raw=true)  
   
+----------------------
+### ESQUEMA ELETRÔNICO
+----------------------
   
+![GPIO](https://github.com/ninomegadriver/BlueJamma/blob/main/images/schematic-gpio.jpg?raw=true)  
+  
+![Oscillator](https://github.com/ninomegadriver/BlueJamma/blob/main/images/schematic-oscillator.jpg?raw=true)  
+
+![Power](https://github.com/ninomegadriver/BlueJamma/blob/main/images/schematic-power.jpg?raw=true)  
+
+![Video](https://github.com/ninomegadriver/BlueJamma/blob/main/images/schematic-video.jpg?raw=true)  
+
+![USB](https://github.com/ninomegadriver/BlueJamma/blob/main/images/schematic-usb.jpg?raw=true)  
+
+![flash](https://github.com/ninomegadriver/BlueJamma/blob/main/images/schematic-flash.jpg?raw=true)  
+
+![audio](https://github.com/ninomegadriver/BlueJamma/blob/main/images/schematic-audio.jpg?raw=true)  
+  
+-----------------
+### GLAMOUR SHOTS
+-----------------
+
+![Glamour Shot](https://github.com/ninomegadriver/BlueJamma/blob/main/images/BlueJammaInShell1.jpg?raw=true)  
+![Glamour Shot](https://github.com/ninomegadriver/BlueJamma/blob/main/images/BlueJammaInShell2.jpg?raw=true)  
+![Glamour Shot](https://github.com/ninomegadriver/BlueJamma/blob/main/images/BlueJammaInShell3.jpg?raw=true)  
+![Glamour Shot](https://github.com/ninomegadriver/BlueJamma/blob/main/images/pcb-cad-top.jpg?raw=true)  
+![Glamour Shot](https://github.com/ninomegadriver/BlueJamma/blob/main/images/pcbs.jpg?raw=true)  
+![Glamour Shot](https://github.com/ninomegadriver/BlueJamma/blob/main/images/pcb-top.jpg?raw=true)  
+  
+-----------------
+Nino MegaDriver - 2024  
+nino@nino.com.br  
+-----------------
