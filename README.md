@@ -13,10 +13,87 @@ Utiliza todos os GPIOs disponíveis na MCU para suportar todos botões Jamma. Pa
 ### CONEXÃO USB COM O PC
 ------------------------
   
-A ligação dos controles no PC é feita através de uma porta USB que, preferencialmente, é configurada como um [teclado](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as_Keyboard), com os botões mapeados no padrão do emulador M.A.M.E.  
+A ligação dos controles no PC é feita através de uma porta USB que, para tal, estão disponibilizados três firmwares:  
   
-Segue abaixo relação dos Pinos vs GPIO vs Teclas  
+| Firmware | Setup |
+|----------|-------|
+| [Blue_Jamma_as_Xinput.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_Xinput.bin?raw=true) | Dois controles Xinput detectados pelo PC como controles de Xbox 360 |
+| [Blue_Jamma_as_MAME_Keyboard.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_MAME_Keyboard.bin?raw=true) | Um teclado com os botões mapeados utilizando as teclas no padrão do emulador MAME |
+| [Blue_Jamma_as_Simple_Keyboard.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_Simple_Keyboard.bin?raw=true) | Um teclado com os botões mapeados utilizando apenas teclas simples, letras, para evitar problemas típicos com alt, ctrl, etc |
+  
+  Para gravar o Firmware na Blue Jamma recomendo utilizar o acessório ST-Link e a ferranenta de linha de comando "st-flash". Exemplo do comando "st-flash":  
+  ```st-flash write Blue_Jamma_as_Xinput.bin 0x8000000 ```
 
+  **Compatibilidade com a Blue Pill:** Estes firmwares também são compatíveis com as placas genéricas "**Blue Pill**". Se você possui uma e gostaria de utilizar alguns destes firmwares nela ao invés da Blue Jamma, fique a vontade. Basta utilizar a mesma configuração de GPIOs nos botões ou editar o código fonte como desejado. De qualquer forma, note que a Blue Jamma possui resistores pullups em todas as portas Jamma para um melhor controle de corrente. **Logo, se for utilizar uma Blue Pill, utilize a versão do firmware com "INPUT_PULLUP" no nome do arquivo**:      
+  
+  Versões para Blue Pill:  
+  [Blue_Jamma_as_Xinput-INPUT_PULLUP.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_Xinput-INPUT_PULLUP.bin?raw=true)  
+  [Blue_Jamma_as_MAME_Keyboard-INPUT_PULLUP.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_MAME_Keyboard-INPUT_PULLUP.bin?raw=true)  
+  [Blue_Jamma_as_Simple_Keyboard-INPUT_PULLUP.bin](Blue_Jamma_as_Simple_Keyboard-INPUT_PULLUP.bin?raw=true)  
+  
+  
+Segue abaixo relação dos Pinos vs GPIO vs Função  
+
+### Blue_Jamma_as_Xinput.bin
+| Função Jamma | GPIO STM32 | Botão            |
+|--------------|------------|------------------|
+Serviço        | PA0        | Player 1 click do analógico esquerdo  |
+Teste          | PA1        | Player 1 click do analógico direito   |
+Ficha          | PA2        | Player 1 Back                         |
+P2 START       | PA3        | Player 2 Start                        |
+P1 START       | PA4        | Player 1 Start                        |
+P2 UP          | PA5        | Player 2 Direcional Cima              |
+P1 UP          | PA6        | Player 1 Direcional Cima              |
+P2 DOWN        | PA7        | Player 2 Direcional Baixo             |
+P1 DOWN        | PB0        | Player 1 Direcional Baixo             |
+P2 LEFT        | PB1        | Player 2 Direcional Esqurda           |
+P1 LEFT        | PB10       | Player 1 Direcional Esquerda          |
+P2 RIGHT       | PB11       | Player 2 Direcional Direita           |
+P1 RIGHT       | PB12       | Player 2 Direcional Direita           |
+P2 Button 1    | PB13       | Player 2 X  |
+P1 Button 1    | PB14       | Player 1 X  |
+P2 Button 2    | PB15       | Player 2 Y  |
+P1 Button 2    | PA8        | Player 1 Y  |
+P2 Button 3    | PA15       | Player 2 LB |
+P1 Button 3    | PB3        | Player 1 LB |
+P2 Button 4    | PB4        | Player 2 A  |
+P1 Button 4    | PB5        | Player 1 A  |
+P2 Button 5    | PB6        | Player 2 B  |
+P1 Button 5    | PB7        | Player 1 B  |
+P2 Button 6    | PB8        | Player 2 RB |
+P1 Button 6    | PB9        | Player 1 RB |
+
+  
+### Blue_Jamma_as_Simple_Keyboard.bin
+| Função Jamma | GPIO STM32 | Tecla            |
+|--------------|------------|------------------|
+Serviço        | PA0        | q                |
+Teste          | PA1        | w                |
+Ficha          | PA2        | e                |
+P2 START       | PA3        | t                |
+P1 START       | PA4        | ENTER            |
+P2 UP          | PA5        | y                |
+P1 UP          | PA6        | Seta Cima        |
+P2 DOWN        | PA7        | u                |
+P1 DOWN        | PB0        | Seta Bairo       |
+P2 LEFT        | PB1        | i                |
+P1 LEFT        | PB10       | Seta Esquerda    |
+P2 RIGHT       | PB11       | o                |
+P1 RIGHT       | PB12       | Seta Direita     |
+P2 Button 1    | PB13       | p                |
+P1 Button 1    | PB14       | a                |
+P2 Button 2    | PB15       | s                |
+P1 Button 2    | PA8        | d                |
+P2 Button 3    | PA15       | f                |
+P1 Button 3    | PB3        | g                |
+P2 Button 4    | PB4        | h                |
+P1 Button 4    | PB5        | j                |
+P2 Button 5    | PB6        | k                |
+P1 Button 5    | PB7        | l                |
+P2 Button 6    | PB8        | z                |
+P1 Button 6    | PB9        | x                |
+  
+### Blue_Jamma_as_MAME_Keyboard.bin
 | Função Jamma | GPIO STM32 | Tecla            |
 |--------------|------------|------------------|
 Serviço        | PA0        | F2               |
@@ -45,7 +122,7 @@ P1 Button 5    | PB7        | z                |
 P2 Button 6    | PB8        | h                |
 P1 Button 6    | PB9        | z                |
   
-O [firmware](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as_Keyboard) também possui algumas combinações de botões, para facilitar a navegação através do M.A.M.E. e outros programas ou jogos:
+Ambos os firmwares de teclado possuem algumas combinações de botões, para facilitar a navegação através do M.A.M.E. e outros programas ou jogos:
 
 | Combinação de Botões               | Tecla enviada       |
 |------------------------------------|---------------------|
@@ -54,8 +131,7 @@ O [firmware](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as
 | Player 2 Esquerda + Player 1 Start | ESC                 |
 | Player 2 Direita + Player 2 Start  | Enter               |
   
-  **CURIOSIDADE:** Este [firmware](https://github.com/ninomegadriver/BlueJamma/tree/main/Blue_Jamma_as_Keyboard) também é compatível com as placas genéricas "Blue Pill". Se você possui uma e gostaria de utilizar este firmware nela, ao invés da Blue Jamma, fique a vontade. Basta utilizar a mesma configuração de GPIOs nos botões ou editar o código fonte como desejado.  
-    
+  
   ------------------------
   ### CONEXÃO VGA COM O PC
   ------------------------
