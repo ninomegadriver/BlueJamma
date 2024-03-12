@@ -17,9 +17,10 @@ A ligação dos controles no PC é feita através de uma porta USB que, para tal
   
 | Firmware | Setup |
 |----------|-------|
-| [Blue_Jamma_as_Xinput.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_Xinput.bin?raw=true) | Dois controles Xinput detectados pelo PC como controles de Xbox 360 |
-| [Blue_Jamma_as_MAME_Keyboard.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_MAME_Keyboard.bin?raw=true) | Um teclado com os botões mapeados utilizando as teclas no padrão do emulador MAME |
-| [Blue_Jamma_as_Simple_Keyboard.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_Simple_Keyboard.bin?raw=true) | Um teclado com os botões mapeados utilizando apenas teclas simples, letras, para evitar problemas típicos com alt, ctrl, etc |
+| [Blue_Jamma_as_Xinput.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_Xinput.bin?raw=true) | Dois controles Xinput detectados pelo PC como controles de Xbox 360 |  
+| [Blue_Jamma_as_Xinput-swapped.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_Xinput-swapped.bin?raw=true) | Mesmo que acima, mas com a órdem dos players invertido. Não há muita lógica em qual controle o Windows detecta primeiro, então achei por bem disponibilizar um firmware com a órdem invertida |  
+| [Blue_Jamma_as_MAME_Keyboard.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_MAME_Keyboard.bin?raw=true) | Um teclado com os botões mapeados utilizando as teclas no padrão do emulador MAME |  
+| [Blue_Jamma_as_Simple_Keyboard.bin](https://github.com/ninomegadriver/BlueJamma/blob/main/Blue_Jamma_as_Simple_Keyboard.bin?raw=true) | Um teclado com os botões mapeados utilizando apenas teclas simples, letras, para evitar problemas típicos com alt, ctrl, etc |  
   
   Para gravar o Firmware na Blue Jamma recomendo utilizar o acessório ST-Link e a ferranenta de linha de comando "st-flash". Exemplo do comando "st-flash":  
   ```st-flash write Blue_Jamma_as_Xinput.bin 0x8000000 ```

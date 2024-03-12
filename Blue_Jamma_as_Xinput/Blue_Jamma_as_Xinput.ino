@@ -41,6 +41,11 @@ USBMultiXBox360<2> x360;
 
 uint8_t lastState[27];
 
+// If your windows is detecting the controller in inverse
+// order, try swapping the IDs here...
+uint8_t idPlayer1=1;
+uint8_t idPlayer2=0;
+
 uint8_t jammaPins[] = {
 //  GPIO, // Jamma Button
     PA0,  // Service
@@ -93,8 +98,8 @@ void setup() {
   }
 
   // Initialize the Xbox object;
-  USBComposite.setManufacturerString("Nino MegaDriver");
-  USBComposite.setProductString("Blue Jamma");
+  USBComposite.setManufacturerString("\xA9Microsoft");
+  USBComposite.setProductString("Controller");
   
   x360.registerComponent();
   USBComposite.begin();
@@ -102,7 +107,7 @@ void setup() {
   x360.controllers[0].setRumbleCallback(rumble);
 }
 
-// Update 
+// Update button status
 void updateButton(uint8_t controllerId, uint8_t buttonId, uint8_t jammaPin){
   uint8_t currentState = digitalRead(jammaPins[jammaPin]);
   if(currentState != lastState[jammaPin]){
@@ -114,32 +119,32 @@ void updateButton(uint8_t controllerId, uint8_t buttonId, uint8_t jammaPin){
 }
 
 void loop() {
-    updateButton(0,XBOX_L3,       0);  // Service
-    updateButton(0,XBOX_R3,       1);  // Test
-    updateButton(0,XBOX_BACK,     2);  // COIN1
-    updateButton(1,XBOX_START,    3);  // P2 START
-    updateButton(0,XBOX_START,    4);  // P1 START
-    updateButton(1,XBOX_DUP,      5);  // P2 UP
-    updateButton(0,XBOX_DUP,      6);  // P1 UP
-    updateButton(1,XBOX_DDOWN,    7);  // P2 DOWN
-    updateButton(0,XBOX_DDOWN,    8);  // P1 DOWN
-    updateButton(1,XBOX_DLEFT,    9);  // P2 LEFT
-    updateButton(0,XBOX_DLEFT,    10); // P1 LEFT
-    updateButton(1,XBOX_DRIGHT,   11); // P2 RIGHT
-    updateButton(0,XBOX_DRIGHT,   12); // P1 RIGHT
-    updateButton(1,XBOX_X,        13); // P2 Button 1
-    updateButton(0,XBOX_X,        14); // P1 Button 1
-    updateButton(1,XBOX_Y,        15); // P2 Button 2
-    updateButton(0,XBOX_Y,        16); // P1 Button 2
-    updateButton(1,XBOX_LSHOULDER,17); // P2 Button 3
-    updateButton(0,XBOX_LSHOULDER,18); // P1 Button 3
-    updateButton(1,XBOX_A,        19); // P2 Button 4
-    updateButton(0,XBOX_A,        20); // P1 Button 4
-    updateButton(1,XBOX_B,        21); // P2 Button 5
-    updateButton(0,XBOX_B,        22); // P1 Button 5
-    updateButton(1,XBOX_RSHOULDER,23); // P2 Button 6
-    updateButton(0,XBOX_RSHOULDER,24); // P1 Button 6
-    x360.controllers[0].send();
-    x360.controllers[1].send();
+    updateButton(idPlayer1,XBOX_L3,       0);  // Service
+    updateButton(idPlayer1,XBOX_R3,       1);  // Test
+    updateButton(idPlayer1,XBOX_BACK,     2);  // COIN1
+    updateButton(idPlayer2,XBOX_START,    3);  // P2 START
+    updateButton(idPlayer1,XBOX_START,    4);  // P1 START
+    updateButton(idPlayer2,XBOX_DUP,      5);  // P2 UP
+    updateButton(idPlayer1,XBOX_DUP,      6);  // P1 UP
+    updateButton(idPlayer2,XBOX_DDOWN,    7);  // P2 DOWN
+    updateButton(idPlayer1,XBOX_DDOWN,    8);  // P1 DOWN
+    updateButton(idPlayer2,XBOX_DLEFT,    9);  // P2 LEFT
+    updateButton(idPlayer1,XBOX_DLEFT,    10); // P1 LEFT
+    updateButton(idPlayer2,XBOX_DRIGHT,   11); // P2 RIGHT
+    updateButton(idPlayer1,XBOX_DRIGHT,   12); // P1 RIGHT
+    updateButton(idPlayer2,XBOX_X,        13); // P2 Button 1
+    updateButton(idPlayer1,XBOX_X,        14); // P1 Button 1
+    updateButton(idPlayer2,XBOX_Y,        15); // P2 Button 2
+    updateButton(idPlayer1,XBOX_Y,        16); // P1 Button 2
+    updateButton(idPlayer2,XBOX_LSHOULDER,17); // P2 Button 3
+    updateButton(idPlayer1,XBOX_LSHOULDER,18); // P1 Button 3
+    updateButton(idPlayer2,XBOX_A,        19); // P2 Button 4
+    updateButton(idPlayer1,XBOX_A,        20); // P1 Button 4
+    updateButton(idPlayer2,XBOX_B,        21); // P2 Button 5
+    updateButton(idPlayer1,XBOX_B,        22); // P1 Button 5
+    updateButton(idPlayer2,XBOX_RSHOULDER,23); // P2 Button 6
+    updateButton(idPlayer1,XBOX_RSHOULDER,24); // P1 Button 6
+    x360.controllers[idPlayer1].send();
+    x360.controllers[idPlayer2].send();
     delay(8); // deBounce  
 }
