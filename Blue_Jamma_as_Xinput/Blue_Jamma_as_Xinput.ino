@@ -15,7 +15,7 @@
  * Right thumb stick click => Test
  * Start                   => Start
  * Back                    => Coin
- * Directional Pad         => Up, Down, Left, Right
+ * DPad or Left Analog     => Up, Down, Left, Right
  * X                       => Button 1 / Low Punch
  * Y                       => Button 2 / Medium Punch
  * L Shoulder/Button       => Button 3 / Fierce Punch
@@ -26,6 +26,12 @@
  * Right thumb stick       => Not used
  * Left trigger            => Not used
  * Right trigger           => Not used
+ * 
+ * PA9                     => Swap player controls
+ * PA10                    => Switch between DPAD or Analog Mode
+ * 
+ * For a quick reference check:
+ * https://github.com/ninomegadriver/BlueJamma
  * 
  * Arduino core used:
  * Arduino_STM32 - https://github.com/rogerclarkmelbourne/Arduino_STM32
@@ -41,10 +47,13 @@ USBMultiXBox360<2> x360;
 
 uint8_t lastState[27];
 
-// If your windows is detecting the controller in inverse
-// order, try swapping the IDs here...
-uint8_t idPlayer1=1;
-uint8_t idPlayer2=0;
+// Sometimes Windows or some specific game may
+// randonly change the order of connected controllers
+// to workwarround this problem we can swapped the
+// controles at any time by changing the status
+// o PA9 gpio
+uint8_t idPlayer1=0;
+uint8_t idPlayer2=1;
 
 uint8_t jammaPins[] = {
 //  GPIO, // Jamma Button
@@ -86,16 +95,14 @@ void setup() {
   pinMode(PC13, OUTPUT);
   digitalWrite(PC13, LOW);
 
-  pinMode(PC15, OUTPUT);
 
   // Initialize the GPIOs
   for(uint8_t i=0;i<sizeof jammaPins;i++) {
-    // The Blue Jamma has external PULL UPs on all inputs for better
-    // current control over the Jamma harness. If you intent to use
-    // this code with a generic Blue Pill, you'll have to set the
-    // pins to INPUT_PULLUP
-    pinMode(jammaPins[i], INPUT);
+    pinMode(jammaPins[i], INPUT_PULLUP);
   }
+
+  pinMode(PA9 , INPUT_PULLUP); // Control the player order
+  pinMode(PA10, INPUT_PULLUP); // Control the directional mode
 
   // Initialize the Xbox object;
   USBComposite.setManufacturerString("\xA9Microsoft");
@@ -105,6 +112,7 @@ void setup() {
   USBComposite.begin();
   while (!USBComposite);  
   x360.controllers[0].setRumbleCallback(rumble);
+  
 }
 
 // Update button status
@@ -115,15 +123,31 @@ void updateButton(uint8_t controllerId, uint8_t buttonId, uint8_t jammaPin){
     else                    x360.controllers[controllerId].button(buttonId,0);
     lastState[jammaPin] = currentState;
   }
-  
 }
 
 void loop() {
+
+  // Check the order of the controllers
+  if(digitalRead(PA9) == LOW){
+    idPlayer1 = 1;
+    idPlayer2 = 0;
+  }else{
+    idPlayer1 = 0;
+    idPlayer2 = 1;
+  }
+  
     updateButton(idPlayer1,XBOX_L3,       0);  // Service
     updateButton(idPlayer1,XBOX_R3,       1);  // Test
     updateButton(idPlayer1,XBOX_BACK,     2);  // COIN1
     updateButton(idPlayer2,XBOX_START,    3);  // P2 START
     updateButton(idPlayer1,XBOX_START,    4);  // P1 START
+
+  // Check the directional mode.
+  if(digitalRead(PA10) == LOW){
+    x360.controllers[idPlayer2].Y(0);
+    x360.controllers[idPlayer1].Y(0);
+    x360.controllers[idPlayer2].X(0);
+    x360.controllers[idPlayer1].X(0);
     updateButton(idPlayer2,XBOX_DUP,      5);  // P2 UP
     updateButton(idPlayer1,XBOX_DUP,      6);  // P1 UP
     updateButton(idPlayer2,XBOX_DDOWN,    7);  // P2 DOWN
@@ -132,6 +156,23 @@ void loop() {
     updateButton(idPlayer1,XBOX_DLEFT,    10); // P1 LEFT
     updateButton(idPlayer2,XBOX_DRIGHT,   11); // P2 RIGHT
     updateButton(idPlayer1,XBOX_DRIGHT,   12); // P1 RIGHT
+  }else{
+    if(digitalRead(jammaPins[5])  == LOW)       x360.controllers[idPlayer2].Y(+32767); // P2 UP
+    else if(digitalRead(jammaPins[7])  == LOW)  x360.controllers[idPlayer2].Y(-32767); // P2 DOWN
+    else                                        x360.controllers[idPlayer2].Y(0);      // P2 ZERO Y
+    
+    if(digitalRead(jammaPins[6])  == LOW)       x360.controllers[idPlayer1].Y(+32767); // P1 UP
+    else if(digitalRead(jammaPins[8])  == LOW)  x360.controllers[idPlayer1].Y(-32767); // P1 DOWN
+    else                                        x360.controllers[idPlayer1].Y(0);      // P1 ZERO Y
+
+    if(digitalRead(jammaPins[9])  == LOW)       x360.controllers[idPlayer2].X(-32767); // P2 LEFT
+    else if(digitalRead(jammaPins[11]) == LOW)  x360.controllers[idPlayer2].X(+32767); // P2 RIGHT
+    else                                        x360.controllers[idPlayer2].X(0);      // P2 ZEROX
+
+    if(digitalRead(jammaPins[10]) == LOW)       x360.controllers[idPlayer1].X(-32767);  // P1 LEFT
+    else if(digitalRead(jammaPins[12]) == LOW)  x360.controllers[idPlayer1].X(+32767);  // P1 RIGHT
+    else                                        x360.controllers[idPlayer1].X(0);       // P1 ZERO X
+  }
     updateButton(idPlayer2,XBOX_X,        13); // P2 Button 1
     updateButton(idPlayer1,XBOX_X,        14); // P1 Button 1
     updateButton(idPlayer2,XBOX_Y,        15); // P2 Button 2
