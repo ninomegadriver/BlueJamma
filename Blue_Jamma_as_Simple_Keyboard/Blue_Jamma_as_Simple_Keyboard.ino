@@ -70,7 +70,7 @@ const uint8_t keys[] = {
     'p',                  // P2 Button 1
     'a',                  // P1 Button 1
     's',                  // P2 Button 2
-    'd',                   // P1 Button 2
+    'd',                  // P1 Button 2
     'f',                  // P2 Button 3
     'g',                  // P1 Button 3
     'h',                  // P2 Button 4

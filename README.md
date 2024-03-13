@@ -54,14 +54,14 @@ P2 Button 1    | PB13       | Player 2 X  |
 P1 Button 1    | PB14       | Player 1 X  |
 P2 Button 2    | PB15       | Player 2 Y  |
 P1 Button 2    | PA8        | Player 1 Y  |
-P2 Button 3    | PA15       | Player 2 LB |
-P1 Button 3    | PB3        | Player 1 LB |
+P2 Button 3    | PA15       | Player 2 RB |
+P1 Button 3    | PB3        | Player 1 RB |
 P2 Button 4    | PB4        | Player 2 A  |
 P1 Button 4    | PB5        | Player 1 A  |
 P2 Button 5    | PB6        | Player 2 B  |
 P1 Button 5    | PB7        | Player 1 B  |
-P2 Button 6    | PB8        | Player 2 RB |
-P1 Button 6    | PB9        | Player 1 RB |
+P2 Button 6    | PB8        | Player 2 R Trigger |
+P1 Button 6    | PB9        | Player 1 R Trigger |
   
   Para facilitar a configuração e aumentar a compatibilidade, os pios PA9 e PA10 também estão configurados conforme abaixo:
   

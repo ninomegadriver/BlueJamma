@@ -18,14 +18,14 @@
  * DPad or Left Analog     => Up, Down, Left, Right
  * X                       => Button 1 / Low Punch
  * Y                       => Button 2 / Medium Punch
- * L Shoulder/Button       => Button 3 / Fierce Punch
+ * R Shoulder              => Button 3 / Fierce Punch
  * A                       => Button 4 / Low Kick
  * B                       => Button 5 / Medium Kick
- * R Shoulder/Button       => Button 6 / Fierce Kick
+ * R Trigger               => Button 6 / Fierce Kick
+ * Left button             => Not used (Usually Punch x3)
+ * Left trigger            => Not used (Usually Kick  x3)
  * Left thumb stick        => Not used
  * Right thumb stick       => Not used
- * Left trigger            => Not used
- * Right trigger           => Not used
  * 
  * PA9                     => Swap player controls
  * PA10                    => Switch between DPAD or Analog Mode
@@ -144,19 +144,7 @@ void loop() {
 
   // Check the directional mode.
   if(digitalRead(PA10) == LOW){
-    x360.controllers[idPlayer2].Y(0);
-    x360.controllers[idPlayer1].Y(0);
-    x360.controllers[idPlayer2].X(0);
-    x360.controllers[idPlayer1].X(0);
-    updateButton(idPlayer2,XBOX_DUP,      5);  // P2 UP
-    updateButton(idPlayer1,XBOX_DUP,      6);  // P1 UP
-    updateButton(idPlayer2,XBOX_DDOWN,    7);  // P2 DOWN
-    updateButton(idPlayer1,XBOX_DDOWN,    8);  // P1 DOWN
-    updateButton(idPlayer2,XBOX_DLEFT,    9);  // P2 LEFT
-    updateButton(idPlayer1,XBOX_DLEFT,    10); // P1 LEFT
-    updateButton(idPlayer2,XBOX_DRIGHT,   11); // P2 RIGHT
-    updateButton(idPlayer1,XBOX_DRIGHT,   12); // P1 RIGHT
-  }else{
+    
     if(digitalRead(jammaPins[5])  == LOW)       x360.controllers[idPlayer2].Y(+32767); // P2 UP
     else if(digitalRead(jammaPins[7])  == LOW)  x360.controllers[idPlayer2].Y(-32767); // P2 DOWN
     else                                        x360.controllers[idPlayer2].Y(0);      // P2 ZERO Y
@@ -172,20 +160,45 @@ void loop() {
     if(digitalRead(jammaPins[10]) == LOW)       x360.controllers[idPlayer1].X(-32767);  // P1 LEFT
     else if(digitalRead(jammaPins[12]) == LOW)  x360.controllers[idPlayer1].X(+32767);  // P1 RIGHT
     else                                        x360.controllers[idPlayer1].X(0);       // P1 ZERO X
+
+  } else {
+
+    x360.controllers[idPlayer2].Y(0);
+    x360.controllers[idPlayer1].Y(0);
+    x360.controllers[idPlayer2].X(0);
+    x360.controllers[idPlayer1].X(0);
+    updateButton(idPlayer2,XBOX_DUP,      5);  // P2 UP
+    updateButton(idPlayer1,XBOX_DUP,      6);  // P1 UP
+    updateButton(idPlayer2,XBOX_DDOWN,    7);  // P2 DOWN
+    updateButton(idPlayer1,XBOX_DDOWN,    8);  // P1 DOWN
+    updateButton(idPlayer2,XBOX_DLEFT,    9);  // P2 LEFT
+    updateButton(idPlayer1,XBOX_DLEFT,    10); // P1 LEFT
+    updateButton(idPlayer2,XBOX_DRIGHT,   11); // P2 RIGHT
+    updateButton(idPlayer1,XBOX_DRIGHT,   12); // P1 RIGHT
+    
   }
-    updateButton(idPlayer2,XBOX_X,        13); // P2 Button 1
-    updateButton(idPlayer1,XBOX_X,        14); // P1 Button 1
-    updateButton(idPlayer2,XBOX_Y,        15); // P2 Button 2
-    updateButton(idPlayer1,XBOX_Y,        16); // P1 Button 2
-    updateButton(idPlayer2,XBOX_LSHOULDER,17); // P2 Button 3
-    updateButton(idPlayer1,XBOX_LSHOULDER,18); // P1 Button 3
-    updateButton(idPlayer2,XBOX_A,        19); // P2 Button 4
-    updateButton(idPlayer1,XBOX_A,        20); // P1 Button 4
-    updateButton(idPlayer2,XBOX_B,        21); // P2 Button 5
-    updateButton(idPlayer1,XBOX_B,        22); // P1 Button 5
-    updateButton(idPlayer2,XBOX_RSHOULDER,23); // P2 Button 6
-    updateButton(idPlayer1,XBOX_RSHOULDER,24); // P1 Button 6
-    x360.controllers[idPlayer1].send();
-    x360.controllers[idPlayer2].send();
-    delay(8); // deBounce  
+
+   updateButton(idPlayer1,XBOX_X,        14); // P1 Button 1
+   updateButton(idPlayer1,XBOX_Y,        16); // P1 Button 2
+   updateButton(idPlayer1,XBOX_RSHOULDER,18); // P1 Button 3
+  
+   updateButton(idPlayer2,XBOX_X,        13); // P2 Button 1
+   updateButton(idPlayer2,XBOX_Y,        15); // P2 Button 2
+   updateButton(idPlayer2,XBOX_RSHOULDER,17); // P2 Button 3
+
+
+   updateButton(idPlayer2,XBOX_A,        19); // P2 Button 4
+   updateButton(idPlayer2,XBOX_B,        21); // P2 Button 5
+   if(digitalRead(jammaPins[23])  == LOW) x360.controllers[idPlayer2].sliderRight(32767); // P2 Button 6
+   else                                   x360.controllers[idPlayer2].sliderRight(0);
+    
+   updateButton(idPlayer1,XBOX_A,        20); // P1 Button 4
+   updateButton(idPlayer1,XBOX_B,        22); // P1 Button 5
+   if(digitalRead(jammaPins[24])  == LOW) x360.controllers[idPlayer1].sliderRight(32767); // P1 Button 6
+   else                                   x360.controllers[idPlayer1].sliderRight(0);
+    
+   x360.controllers[idPlayer1].send();
+   x360.controllers[idPlayer2].send();
+   delay(8); // deBounce  
+    
 }
