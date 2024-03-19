@@ -45,7 +45,8 @@
 
 USBMultiXBox360<2> x360;
 
-uint8_t lastState[27];
+uint8_t  lastState[27];
+uint16_t buttons[2];
 
 // Sometimes Windows or some specific game may
 // randonly change the order of connected controllers
@@ -115,6 +116,7 @@ void setup() {
   
 }
 
+
 // Update button status
 void updateButton(uint8_t controllerId, uint8_t buttonId, uint8_t jammaPin){
   uint8_t currentState = digitalRead(jammaPins[jammaPin]);
@@ -127,13 +129,15 @@ void updateButton(uint8_t controllerId, uint8_t buttonId, uint8_t jammaPin){
 
 void loop() {
 
+  uint8_t b[6];
+  
   // Check the order of the controllers
   if(digitalRead(PA9) == LOW){
-    idPlayer1 = 1;
-    idPlayer2 = 0;
-  }else{
     idPlayer1 = 0;
     idPlayer2 = 1;
+  }else{
+    idPlayer1 = 1;
+    idPlayer2 = 0;
   }
   
     updateButton(idPlayer1,XBOX_L3,       0);  // Service
@@ -145,20 +149,20 @@ void loop() {
   // Check the directional mode.
   if(digitalRead(PA10) == LOW){
     
-    if(digitalRead(jammaPins[5])  == LOW)       x360.controllers[idPlayer2].Y(+32767); // P2 UP
-    else if(digitalRead(jammaPins[7])  == LOW)  x360.controllers[idPlayer2].Y(-32767); // P2 DOWN
+    if(digitalRead(jammaPins[5])  == LOW)       x360.controllers[idPlayer2].Y(+32760); // P2 UP
+    else if(digitalRead(jammaPins[7])  == LOW)  x360.controllers[idPlayer2].Y(-32760); // P2 DOWN
     else                                        x360.controllers[idPlayer2].Y(0);      // P2 ZERO Y
     
-    if(digitalRead(jammaPins[6])  == LOW)       x360.controllers[idPlayer1].Y(+32767); // P1 UP
-    else if(digitalRead(jammaPins[8])  == LOW)  x360.controllers[idPlayer1].Y(-32767); // P1 DOWN
+    if(digitalRead(jammaPins[6])  == LOW)       x360.controllers[idPlayer1].Y(+32760); // P1 UP
+    else if(digitalRead(jammaPins[8])  == LOW)  x360.controllers[idPlayer1].Y(-32760); // P1 DOWN
     else                                        x360.controllers[idPlayer1].Y(0);      // P1 ZERO Y
 
-    if(digitalRead(jammaPins[9])  == LOW)       x360.controllers[idPlayer2].X(-32767); // P2 LEFT
-    else if(digitalRead(jammaPins[11]) == LOW)  x360.controllers[idPlayer2].X(+32767); // P2 RIGHT
+    if(digitalRead(jammaPins[9])  == LOW)       x360.controllers[idPlayer2].X(-32760); // P2 LEFT
+    else if(digitalRead(jammaPins[11]) == LOW)  x360.controllers[idPlayer2].X(+32760); // P2 RIGHT
     else                                        x360.controllers[idPlayer2].X(0);      // P2 ZEROX
-
-    if(digitalRead(jammaPins[10]) == LOW)       x360.controllers[idPlayer1].X(-32767);  // P1 LEFT
-    else if(digitalRead(jammaPins[12]) == LOW)  x360.controllers[idPlayer1].X(+32767);  // P1 RIGHT
+    
+    if(digitalRead(jammaPins[10]) == LOW)       x360.controllers[idPlayer1].X(-32760);  // P1 LEFT
+    else if(digitalRead(jammaPins[12]) == LOW)  x360.controllers[idPlayer1].X(+32760);  // P1 RIGHT
     else                                        x360.controllers[idPlayer1].X(0);       // P1 ZERO X
 
   } else {
@@ -196,7 +200,15 @@ void loop() {
    updateButton(idPlayer1,XBOX_B,        22); // P1 Button 5
    if(digitalRead(jammaPins[24])  == LOW) x360.controllers[idPlayer1].sliderRight(32767); // P1 Button 6
    else                                   x360.controllers[idPlayer1].sliderRight(0);
-    
+
+
+   // With the defaults libraries, you may encounter a bug where it's almost impossible
+   // to hit 3xPunch or 3xKicks. That's because the library sends the USB repport each
+   // time you update a button or axis. To avoid that, locate the file "USBMultiXbox360.cpp"
+   // in your installation and comment out all the lines with "safeSendReport();"
+   // This way, the repport will actually be sent just when we intentionally call the
+   // "send()" function.
+   
    x360.controllers[idPlayer1].send();
    x360.controllers[idPlayer2].send();
    delay(8); // deBounce  
